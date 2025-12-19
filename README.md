@@ -22,3 +22,6 @@ npx playwright test --project=chromium
 ```
 
 ---
+```bash
+npx playwright test tests/saucedemo-sorting.spec --headed --project=chromium
+```
