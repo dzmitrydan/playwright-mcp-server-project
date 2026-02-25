@@ -1,0 +1,569 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e9]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e15]: person
+          - generic [ref=e16]:
+            - generic [ref=e17]: Already have a Google Cloud billing account?
+            - generic [ref=e18]: Link your account to use negotiated prices for estimate calculations
+        - generic [ref=e19]:
+          - generic [ref=e21] [cursor=pointer]:
+            - generic [ref=e22]: Sign in
+            - link "Sign in" [ref=e791]:
+              - /url: https://accounts.google.com/ServiceLogin?hl=en-US&continue=https://cloud.google.com/products/calculator
+          - button "Dismiss" [ref=e792] [cursor=pointer]:
+            - generic [ref=e28]: Dismiss
+      - generic [ref=e34]:
+        - generic [ref=e794]:
+          - generic [ref=e795]:
+            - img "Compute Engine" [ref=e797]
+            - heading "Selected product title" [level=1] [ref=e798]: Compute Engine
+            - generic [ref=e800]:
+              - button "View details" [ref=e801] [cursor=pointer]:
+                - generic [ref=e803]: info
+              - tooltip [ref=e805]: View details
+            - generic [ref=e806]: $67.01/ month
+          - generic [ref=e809]:
+            - combobox "Service type" [ref=e813] [cursor=pointer]:
+              - generic: Service type
+              - generic: Service type
+              - img [ref=e815]
+              - generic:
+                - generic: Instances
+              - generic:
+                - img
+            - generic [ref=e817]:
+              - heading "Instances configuration" [level=2] [ref=e818]
+              - generic [ref=e819]:
+                - switch "Advanced settings" [ref=e823] [cursor=pointer]:
+                  - generic [ref=e827]:
+                    - img [ref=e830]
+                    - img [ref=e834]
+                - generic [ref=e838]: Advanced settings
+            - generic [ref=e839]:
+              - generic [ref=e846]:
+                - generic [ref=e848]:
+                  - switch "Specify usage time for each instance" [ref=e852] [cursor=pointer]:
+                    - generic [ref=e856]:
+                      - img [ref=e859]
+                      - img [ref=e863]
+                  - generic [ref=e867]: Specify usage time for each instance
+                - generic [ref=e868]:
+                  - generic [ref=e869]:
+                    - generic [ref=e870]:
+                      - generic [ref=e871]: Number of instances*
+                      - button "tooltip" [ref=e876] [cursor=pointer]:
+                        - generic [ref=e878]: info
+                    - generic [ref=e880]:
+                      - button "Decrement" [ref=e882] [cursor=pointer]:
+                        - generic [ref=e884]: remove
+                      - spinbutton "Number of instances*" [ref=e890]: "1"
+                      - button "Increment" [ref=e892] [cursor=pointer]:
+                        - generic [ref=e894]: add
+                  - generic [ref=e896]:
+                    - generic [ref=e897]:
+                      - generic [ref=e898]: Total instance usage time*
+                      - button "tooltip" [ref=e903] [cursor=pointer]:
+                        - generic [ref=e905]: info
+                    - generic [ref=e907]:
+                      - button "Decrement" [ref=e909] [cursor=pointer]:
+                        - generic [ref=e911]: remove
+                      - spinbutton "Total instance usage time*" [ref=e917]: "730"
+                      - button "Increment" [ref=e919] [cursor=pointer]:
+                        - generic [ref=e921]: add
+                    - generic [ref=e923]: Changing Total instance usage amount will automatically calculate number of instances
+                  - generic [ref=e924]:
+                    - combobox "Units" [ref=e927] [cursor=pointer]:
+                      - generic:
+                        - generic: hours
+                      - generic:
+                        - img
+                    - combobox "Time period" [ref=e931] [cursor=pointer]:
+                      - generic:
+                        - generic: per month
+                      - generic:
+                        - img
+              - generic [ref=e936]:
+                - combobox "Operating System / Software" [ref=e941] [cursor=pointer]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: Operating System / Software*
+                        - generic: Operating System / Software*
+                        - generic: Operating System / Software*
+                  - generic:
+                    - generic: "Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)"
+                  - generic:
+                    - img
+                - button "tooltip" [ref=e946] [cursor=pointer]:
+                  - generic [ref=e948]: info
+              - generic [ref=e954]:
+                - generic [ref=e956]:
+                  - text: Provisioning Model
+                  - button "tooltip" [ref=e960] [cursor=pointer]:
+                    - generic [ref=e962]: info
+                - generic [ref=e966]:
+                  - generic [ref=e967]:
+                    - radio "Regular" [checked]
+                    - generic [ref=e968] [cursor=pointer]: Regular
+                  - generic [ref=e969]:
+                    - radio "Spot (Preemptible VM)"
+                    - generic [ref=e970] [cursor=pointer]: Spot (Preemptible VM)
+              - generic [ref=e975]:
+                - generic [ref=e977]:
+                  - text: Machine type*
+                  - button "tooltip" [ref=e981] [cursor=pointer]:
+                    - generic [ref=e983]: info
+                - generic [ref=e986]:
+                  - generic [ref=e987]:
+                    - combobox "Machine Family" [ref=e992] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Machine Family*
+                            - generic: Machine Family*
+                            - generic: Machine Family*
+                      - generic:
+                        - generic: General Purpose
+                      - generic:
+                        - img
+                    - combobox "Series" [ref=e998] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Series*
+                            - generic: Series*
+                            - generic: Series*
+                      - generic:
+                        - generic: N4
+                      - generic:
+                        - img
+                    - combobox "Machine type" [ref=e1004] [cursor=pointer]:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: Machine type*
+                            - generic: Machine type*
+                            - generic: Machine type*
+                      - generic:
+                        - generic: n4-standard-2
+                      - generic:
+                        - img
+                    - generic [ref=e1006]:
+                      - generic [ref=e1008]:
+                        - generic [ref=e1009]: Number of vCPUs
+                        - button "tooltip" [ref=e1013] [cursor=pointer]:
+                          - generic [ref=e1015]: info
+                      - generic [ref=e1017]:
+                        - generic [ref=e1023] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - generic: 2 vCPUs
+                          - slider "Number of vCPUs": "0"
+                        - spinbutton "Number of vCPUs" [ref=e1031]: "2"
+                    - generic [ref=e1032]:
+                      - generic [ref=e1034]:
+                        - generic [ref=e1035]: Amount of memory
+                        - button "tooltip" [ref=e1039] [cursor=pointer]:
+                          - generic [ref=e1041]: info
+                      - generic [ref=e1043]:
+                        - generic [ref=e1050] [cursor=pointer]:
+                          - generic:
+                            - generic:
+                              - generic: 8 GiB
+                          - slider "Amount of memory": "80"
+                        - spinbutton "Amount of memory" [ref=e1058]: "8"
+                  - generic [ref=e1060]:
+                    - generic [ref=e1061]: Machine Type
+                    - generic [ref=e1062]: Based on your selections
+                    - generic [ref=e1063]: n4-standard-2
+                    - generic [ref=e1064]: "vCPUs: 2, RAM: 8 GiB"
+              - generic [ref=e1069]:
+                - generic [ref=e1071]:
+                  - text: Boot disk type
+                  - button "tooltip" [ref=e1075] [cursor=pointer]:
+                    - generic [ref=e1077]: info
+                - generic [ref=e1082]:
+                  - radio "Hyperdisk Balanced" [checked]
+                  - generic [ref=e1083] [cursor=pointer]: Hyperdisk Balanced
+              - generic [ref=e1087]:
+                - generic [ref=e1090]:
+                  - text: Boot disk size (GiB)
+                  - button "tooltip" [ref=e1094] [cursor=pointer]:
+                    - generic [ref=e1096]: info
+                - generic [ref=e1100]:
+                  - button "Decrement" [ref=e1102] [cursor=pointer]:
+                    - generic [ref=e1104]: remove
+                  - spinbutton "Boot disk size (GiB) tooltip" [ref=e1110]: "10"
+                  - button "Increment" [ref=e1112] [cursor=pointer]:
+                    - generic [ref=e1114]: add
+              - generic [ref=e1120]:
+                - generic [ref=e1125]:
+                  - switch "Add GPUs" [disabled]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - img
+                            - generic:
+                              - generic:
+                                - img
+                - generic [ref=e1126]:
+                  - generic [ref=e1127]:
+                    - text: Add GPUs
+                    - button "tooltip" [ref=e1131] [cursor=pointer]:
+                      - generic [ref=e1133]: info
+                  - generic [ref=e1135]: GPUs are available for N1, A2, and G2 machine series
+              - generic [ref=e1139]:
+                - generic [ref=e1142]:
+                  - combobox "Region" [ref=e1144] [cursor=pointer]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: Region*
+                          - generic: Region*
+                          - generic: Region*
+                    - img [ref=e1145]
+                    - generic:
+                      - generic: Iowa (us-central1)
+                    - generic:
+                      - img
+                  - paragraph [ref=e1147]: Regional availability depends on the machine type and GPU selected.
+                  - generic [ref=e1148]: Regional availability depends on the machine type and GPU selected.
+                - button "tooltip" [ref=e1152] [cursor=pointer]:
+                  - generic [ref=e1154]: info
+              - generic [ref=e1159]:
+                - combobox "Committed use discount options" [ref=e1164] [cursor=pointer]:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic: Committed use discount options
+                        - generic: Committed use discount options
+                        - generic: Committed use discount options
+                  - generic:
+                    - generic: None
+                  - generic:
+                    - img
+                - button "tooltip" [ref=e1169] [cursor=pointer]:
+                  - generic [ref=e1171]: info
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - generic [ref=e62]: lock
+            - generic [ref=e63]:
+              - link "Sign in" [ref=e1173] [cursor=pointer]:
+                - /url: https://accounts.google.com/ServiceLogin?hl=en-US&continue=https://cloud.google.com/products/calculator
+              - text: to view billing account pricing.
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - heading "Cost details" [level=2] [ref=e1174]
+              - button "Toggle FedRAMP compliance" [ref=e1175] [cursor=pointer]:
+                - generic [ref=e72]: settings
+            - generic [ref=e77]:
+              - button "Open currency selector" [ref=e1176] [cursor=pointer]:
+                - generic [ref=e81]: USD
+                - generic [ref=e83]: arrow_drop_down
+              - tooltip [ref=e84]: Adjust currency
+          - button "Add to estimate" [ref=e1177] [cursor=pointer]:
+            - generic [ref=e90]: add
+            - generic [ref=e91]: Add to estimate
+          - generic [ref=e1178]:
+            - generic [ref=e1179]:
+              - generic [ref=e1180]: Compute
+              - generic [ref=e1181]: $67.01
+              - generic [ref=e1183]:
+                - button "Delete group" [ref=e1184] [cursor=pointer]:
+                  - generic [ref=e1186]: delete_forever
+                - tooltip [ref=e1188]: Delete group
+            - generic "Edit Instances" [ref=e1189]:
+              - generic [ref=e1190]:
+                - button "Edit service" [disabled]:
+                  - generic:
+                    - generic: edit
+              - generic [ref=e1191]:
+                - textbox "Rename Instances" [ref=e1193]: Instances
+                - generic [ref=e1194]: Compute Engine
+              - generic [ref=e1196]: $67.01
+              - generic [ref=e1199]:
+                - button "More options" [ref=e1200] [cursor=pointer]:
+                  - generic [ref=e1202]: more_vert
+                - tooltip [ref=e1204]: More options
+          - generic [ref=e97]:
+            - generic [ref=e98]:
+              - generic [ref=e99]: Estimated cost
+              - generic [ref=e100]:
+                - generic [ref=e101]: $67.01
+                - generic [ref=e102]: / mo
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - generic [ref=e1205]:
+                  - generic [ref=e1206] [cursor=pointer]:
+                    - generic [ref=e1208]: plagiarism
+                    - link "Open detailed view" [ref=e1209]:
+                      - /url: ./products/calculator/estimate-preview/CiQ0MzE1OTdhMS1kNTFlLTQ3MGItYjIwZS1hMGFjZDUxN2M0ZDIQAQ%3D%3D
+                  - tooltip [ref=e1210]: Open detailed view
+                - generic [ref=e112]:
+                  - button "Download estimate as .csv" [ref=e1211] [cursor=pointer]:
+                    - generic [ref=e115]: file_save
+                  - tooltip [ref=e117]: Download .csv
+                - generic [ref=e1212]:
+                  - generic [ref=e1213] [cursor=pointer]:
+                    - generic [ref=e1215]: note_add
+                    - link "New estimate from duplicate" [ref=e1216]:
+                      - /url: https://cloud.google.com/products/calculator?dl=CjhDaVEwTXpFMU9UZGhNUzFrTlRGbExUUTNNR0l0WWpJd1pTMWhNR0ZqWkRVeE4yTTBaRElRQVE9PRAIGiQwQjk5RTBGRS0zOTAwLTQyOEEtOThGMy04NEQ4MDg1ODM2NDk
+                  - tooltip [ref=e1217]: New from duplicate
+              - button "Open Share Estimate dialog" [ref=e1218] [cursor=pointer]:
+                - generic [ref=e1221]: link
+                - generic [ref=e1222]: Share
+    - generic:
+      - generic:
+        - generic [ref=e314]:
+          - generic [ref=e315]: Hi there 👋 Have questions about our pricing?
+          - img [ref=e317]
+        - generic [ref=e126]:
+          - generic:
+            - img
+            - generic:
+              - heading "Welcome to Google Cloud Guide" [level=2]
+          - button "Button to activate chat" [ref=e1223] [cursor=pointer]:
+            - img [ref=e128]
+            - generic:
+              - img
+  - banner [ref=e133]:
+    - generic [ref=e136]:
+      - link "Google Cloud" [ref=e1224] [cursor=pointer]:
+        - /url: https://cloud.google.com/
+        - img "Google Cloud" [ref=e1225]
+      - generic [ref=e140]:
+        - navigation [ref=e143]:
+          - text: chevron_left
+          - link "Overview" [ref=e1226] [cursor=pointer]:
+            - /url: https://cloud.google.com/why-google-cloud
+          - link "Solutions" [ref=e1227] [cursor=pointer]:
+            - /url: https://cloud.google.com/solutions
+          - link "Products" [ref=e1228] [cursor=pointer]:
+            - /url: https://cloud.google.com/products
+          - link "Pricing" [ref=e1229] [cursor=pointer]:
+            - /url: https://cloud.google.com/pricing
+          - link "Resources" [ref=e1230] [cursor=pointer]:
+            - /url: https://cloud.google.com/docs/get-started
+          - text: chevron_right
+        - generic [ref=e157]:
+          - generic:
+            - generic: 
+          - textbox "Search" [ref=e1231]
+      - generic [ref=e159]:
+        - link "Docs" [ref=e1232] [cursor=pointer]:
+          - /url: https://cloud.google.com/docs
+        - link "Support" [ref=e1233] [cursor=pointer]:
+          - /url: https://cloud.google.com/support-hub
+      - link "Sign in" [ref=e1234] [cursor=pointer]:
+        - /url: https://accounts.google.com/AccountChooser?continue=https://cloud.google.com/products/calculator&hl=en-US&prompt=select_account&service=cloudconsole
+  - contentinfo [ref=e167]:
+    - generic [ref=e168]:
+      - navigation "Footer Links" [ref=e1235]:
+        - list [ref=e171]:
+          - listitem [ref=e172]:
+            - heading "Why Google" [level=3] [ref=e1236]
+            - list [ref=e174]:
+              - listitem [ref=e175]:
+                - link "Choosing Google Cloud" [ref=e1237] [cursor=pointer]:
+                  - /url: https://cloud.google.com/why-google-cloud
+              - listitem [ref=e177]:
+                - link "Trust and security" [ref=e1238] [cursor=pointer]:
+                  - /url: https://cloud.google.com/trust-center
+              - listitem [ref=e179]:
+                - link "Modern Infrastructure Cloud" [ref=e1239] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/modern-infrastructure
+              - listitem [ref=e181]:
+                - link "Multicloud" [ref=e1240] [cursor=pointer]:
+                  - /url: https://cloud.google.com/multicloud
+              - listitem [ref=e183]:
+                - link "Global infrastructure" [ref=e1241] [cursor=pointer]:
+                  - /url: https://cloud.google.com/infrastructure
+              - listitem [ref=e185]:
+                - link "Locations" [ref=e1242] [cursor=pointer]:
+                  - /url: https://cloud.google.com/about/locations
+              - listitem [ref=e187]:
+                - link "Customers and case studies" [ref=e1243] [cursor=pointer]:
+                  - /url: https://cloud.google.com/customers
+              - listitem [ref=e189]:
+                - link "Analyst reports" [ref=e1244] [cursor=pointer]:
+                  - /url: https://cloud.google.com/analyst-reports
+              - listitem [ref=e191]:
+                - link "Whitepapers" [ref=e1245] [cursor=pointer]:
+                  - /url: https://cloud.google.com/whitepapers
+              - listitem [ref=e193]:
+                - link "Blog" [ref=e1246] [cursor=pointer]:
+                  - /url: https://cloud.google.com/blog
+          - listitem [ref=e195]:
+            - heading "Products and pricing" [level=3] [ref=e1247]
+            - list [ref=e197]:
+              - listitem [ref=e198]:
+                - link "Google Cloud pricing" [ref=e1248] [cursor=pointer]:
+                  - /url: https://cloud.google.com/pricing
+              - listitem [ref=e200]:
+                - link "Google Workspace pricing" [ref=e1249] [cursor=pointer]:
+                  - /url: https://workspace.google.com/pricing.html
+              - listitem [ref=e202]:
+                - link "See all products" [ref=e1250] [cursor=pointer]:
+                  - /url: https://cloud.google.com/products
+          - listitem [ref=e204]:
+            - heading "Solutions" [level=3] [ref=e1251]
+            - list [ref=e206]:
+              - listitem [ref=e207]:
+                - link "Infrastructure modernization" [ref=e1252] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/infrastructure-modernization/
+              - listitem [ref=e209]:
+                - link "Databases" [ref=e1253] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/databases
+              - listitem [ref=e211]:
+                - link "Application modernization" [ref=e1254] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/application-modernization
+              - listitem [ref=e213]:
+                - link "Smart analytics" [ref=e1255] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/data-analytics-and-ai
+              - listitem [ref=e215]:
+                - link "Artificial Intelligence" [ref=e1256] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/ai
+              - listitem [ref=e217]:
+                - link "Security" [ref=e1257] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/security
+              - listitem [ref=e219]:
+                - link "Productivity & work transformation" [ref=e1258] [cursor=pointer]:
+                  - /url: https://workspace.google.com/enterprise
+              - listitem [ref=e221]:
+                - link "Industry solutions" [ref=e1259] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions/#industry-solutions
+              - listitem [ref=e223]:
+                - link "DevOps solutions" [ref=e1260] [cursor=pointer]:
+                  - /url: https://cloud.google.com/devops
+              - listitem [ref=e225]:
+                - link "Small business solutions" [ref=e1261] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions#section-14
+              - listitem [ref=e227]:
+                - link "See all solutions" [ref=e1262] [cursor=pointer]:
+                  - /url: https://cloud.google.com/solutions
+          - listitem [ref=e229]:
+            - heading "Resources" [level=3] [ref=e1263]
+            - list [ref=e231]:
+              - listitem [ref=e232]:
+                - link "Google Cloud Affiliate Program" [ref=e1264] [cursor=pointer]:
+                  - /url: https://cloud.google.com/affiliate-program
+              - listitem [ref=e234]:
+                - link "Google Cloud documentation" [ref=e1265] [cursor=pointer]:
+                  - /url: https://docs.cloud.google.com/
+              - listitem [ref=e236]:
+                - link "Google Cloud quickstarts" [ref=e1266] [cursor=pointer]:
+                  - /url: https://docs.cloud.google.com/docs/get-started/
+              - listitem [ref=e238]:
+                - link "Google Cloud Marketplace" [ref=e1267] [cursor=pointer]:
+                  - /url: https://cloud.google.com/marketplace
+              - listitem [ref=e240]:
+                - link "Learn about cloud computing" [ref=e1268] [cursor=pointer]:
+                  - /url: https://cloud.google.com/discover
+              - listitem [ref=e242]:
+                - link "Support" [ref=e1269] [cursor=pointer]:
+                  - /url: https://cloud.google.com/support-hub
+              - listitem [ref=e244]:
+                - link "Code samples" [ref=e1270] [cursor=pointer]:
+                  - /url: https://docs.cloud.google.com/docs/samples
+              - listitem [ref=e246]:
+                - link "Cloud Architecture Center" [ref=e1271] [cursor=pointer]:
+                  - /url: https://docs.cloud.google.com/architecture/
+              - listitem [ref=e248]:
+                - link "Training" [ref=e1272] [cursor=pointer]:
+                  - /url: https://cloud.google.com/learn/training
+              - listitem [ref=e250]:
+                - link "Certifications" [ref=e1273] [cursor=pointer]:
+                  - /url: https://cloud.google.com/learn/certification
+              - listitem [ref=e252]:
+                - link "Google for Developers" [ref=e1274] [cursor=pointer]:
+                  - /url: https://developers.google.com
+              - listitem [ref=e254]:
+                - link "Google Cloud for Startups" [ref=e1275] [cursor=pointer]:
+                  - /url: https://cloud.google.com/startup
+              - listitem [ref=e256]:
+                - link "System status" [ref=e1276] [cursor=pointer]:
+                  - /url: https://status.cloud.google.com
+              - listitem [ref=e258]:
+                - link "Release Notes" [ref=e1277] [cursor=pointer]:
+                  - /url: https://docs.cloud.google.com/release-notes
+          - listitem [ref=e260]:
+            - heading "Engage" [level=3] [ref=e1278]
+            - list [ref=e262]:
+              - listitem [ref=e263]:
+                - link "Contact sales" [ref=e1279] [cursor=pointer]:
+                  - /url: https://cloud.google.com/contact
+              - listitem [ref=e265]:
+                - link "Find a Partner" [ref=e1280] [cursor=pointer]:
+                  - /url: https://cloud.google.com/find-a-partner
+              - listitem [ref=e267]:
+                - link "Become a Partner" [ref=e1281] [cursor=pointer]:
+                  - /url: https://cloud.google.com/partners/become-a-partner
+              - listitem [ref=e269]:
+                - link "Events" [ref=e1282] [cursor=pointer]:
+                  - /url: https://cloud.google.com/events
+              - listitem [ref=e271]:
+                - link "Podcasts" [ref=e1283] [cursor=pointer]:
+                  - /url: https://cloud.google.com/podcasts
+              - listitem [ref=e273]:
+                - link "Developer Center" [ref=e1284] [cursor=pointer]:
+                  - /url: https://cloud.google.com/developers
+              - listitem [ref=e275]:
+                - link "Press Corner" [ref=e1285] [cursor=pointer]:
+                  - /url: https://www.googlecloudpresscorner.com
+              - listitem [ref=e277]:
+                - link "Google Cloud on YouTube" [ref=e1286] [cursor=pointer]:
+                  - /url: https://www.youtube.com/googlecloud
+              - listitem [ref=e279]:
+                - link "Google Cloud Tech on YouTube" [ref=e1287] [cursor=pointer]:
+                  - /url: https://www.youtube.com/googlecloudplatform
+              - listitem [ref=e281]:
+                - link "Follow on X" [ref=e1288] [cursor=pointer]:
+                  - /url: https://x.com/googlecloud
+              - listitem [ref=e283]:
+                - link "Join User Research" [ref=e1289] [cursor=pointer]:
+                  - /url: https://userresearch.google.com/?reserved=1&utm_source=website&Q_Language=en&utm_medium=own_srch&utm_campaign=CloudWebFooter&utm_term=0&utm_content=0&productTag=clou&campaignDate=jul19&pType=devel&referral_code=jk212693
+              - listitem [ref=e285]:
+                - link "We're hiring. Join Google Cloud!" [ref=e1290] [cursor=pointer]:
+                  - /url: https://careers.google.com/cloud
+              - listitem [ref=e287]:
+                - link "Community forums" [ref=e1291] [cursor=pointer]:
+                  - /url: https://discuss.google.dev/c/google-cloud/14
+      - navigation "Utility links" [ref=e1292]:
+        - list [ref=e291]:
+          - listitem [ref=e292]:
+            - link "About Google" [ref=e1293] [cursor=pointer]:
+              - /url: https://about.google
+          - listitem [ref=e294]:
+            - text: "|"
+            - link "Privacy" [ref=e1294] [cursor=pointer]:
+              - /url: https://policies.google.com/privacy
+          - listitem [ref=e296]:
+            - text: "|"
+            - link "Site terms" [ref=e1295] [cursor=pointer]:
+              - /url: https://policies.google.com/terms
+          - listitem [ref=e298]:
+            - text: "|"
+            - link "Google Cloud terms" [ref=e1296] [cursor=pointer]:
+              - /url: https://cloud.google.com/product-terms
+          - text: "|"
+          - listitem [ref=e300]:
+            - text: "|"
+            - 'link "Our third decade of climate action: join us" [ref=e1297] [cursor=pointer]':
+              - /url: https://cloud.google.com/sustainability
+          - listitem [ref=e302]:
+            - generic [ref=e303]: Sign up for the Google Cloud newsletter
+            - generic [ref=e307] [cursor=pointer]:
+              - text: Subscribe
+              - link "Subscribe" [ref=e1298]:
+                - /url: https://cloud.google.com/newsletter
+        - combobox "‪English‬" [ref=e1299] [cursor=pointer]:
+          - generic: language
+          - generic:
+            - generic: ‪English‬
+          - generic:
+            - img
