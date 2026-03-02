@@ -39,12 +39,9 @@ npx playwright test tests/saucedemo-sorting.spec --headed --project=chromium
 ```
 
 ```bash
-npx playwright test tests/google-cloud-calculator.spec.ts --headed
-<<<<<<< Updated upstream
-=======
+npx playwright test tests/saucedemo-sorting.spec --headed
 ```
 
 ```bash
 npx playwright test tests/google-cloud-calculator.spec.ts  --project=chromium --headed
->>>>>>> Stashed changes
 ```

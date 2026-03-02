@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { ProductsPage } from '../pages/ProductsPage';
+import { LoginPage } from '../pages/saucedemo/LoginPage';
+import { ProductsPage } from '../pages/saucedemo/ProductsPage';
 
 test.describe('Products Sorting Options', () => {
   let loginPage: LoginPage;

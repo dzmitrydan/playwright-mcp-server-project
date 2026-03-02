@@ -1,3 +1,5 @@
+.idea/
+.vscode/
 
 # Playwright
 node_modules/
