@@ -43,5 +43,5 @@ npx playwright test tests/saucedemo-sorting.spec --headed
 ```
 
 ```bash
-npx playwright test tests/google-cloud-calculator.spec.ts  --project=chromium --headed
+npx playwright test tests/saucedemo-sorting.spec.ts  --project=chromium --headed
 ```
