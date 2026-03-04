@@ -1,5 +1,7 @@
 .idea/
-.vscode/
+.vscode/review/
+!.vscode/.github/
+
 
 # Playwright
 node_modules/

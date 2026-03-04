@@ -6,21 +6,23 @@
 
 ### 2. Playwright Test Agents
 - planner
-```
-Generate a test plan for the Google Cloud Compute Engine (go to https://cloud.google.com/products/calculator > ckick Add to estimate > select Compute Engine) and save it as google-cloud-compute-engine-test-plan in the specs folde
-```
 - generator
-
 - healer
-
 
 ---
 
 ## Initiate the Project
+Create tsconfig.json
+```bash
+npx tsc --init
+```
+
 Install project dependency
 ```bash
 npm install
 ```
+
+---
 
 ## Run Tests
 
@@ -33,7 +35,6 @@ Runs the tests only on Desktop Chrome:
 npx playwright test --project=chromium
 ```
 
----
 ```bash
 npx playwright test tests/saucedemo-sorting.spec --headed --project=chromium
 ```
