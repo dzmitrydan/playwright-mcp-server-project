@@ -89,7 +89,7 @@ async downloadEstimateCSV(): Promise<string> {
       this.page.waitForEvent('download'),
       this.page.getByRole('button', { name: /Download estimate as .csv|Download/ }).click(),
     ]);
-    const downloadDir = 'test-downloads';
+    const downloadDir = 'downloads';
     const fs = require('fs');
     if (!fs.existsSync(downloadDir)) {
       fs.mkdirSync(downloadDir, { recursive: true });

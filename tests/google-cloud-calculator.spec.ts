@@ -22,16 +22,8 @@ test('Test 1', async ({page, context}) => {
     let capturedEstimateCost = await computePage.getEstimateCost();
     console.log(`Captured estimated cost: ${capturedEstimateCost}`);
 
-    const [download] = await Promise.all([
-        page.waitForEvent('download'),
-        page.getByRole('button', {name: /Download estimate as .csv|Download/}).click(),
-    ]);
-    const downloadDir = 'downloads';
-    if (!fs.existsSync(downloadDir)) {
-        fs.mkdirSync(downloadDir, {recursive: true});
-    }
-    const filePath = `${downloadDir}/${download.suggestedFilename()}`;
-    await download.saveAs(filePath);
+    const filePath = await computePage.downloadEstimateCSV();
+    const fs = require('fs');
     const csvContent = fs.readFileSync(filePath, 'utf-8');
     let csvTotalPrice = extractCSVTotalPrice(csvContent);
     console.log(`Extracted CSV price: ${csvTotalPrice}`);

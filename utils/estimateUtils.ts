@@ -1,6 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
-
 export function extractCSVTotalPrice(csvContent: string): string {
     // Find the line with 'Total Price:' and extract the price from the next column
     const lines = csvContent.split('\n').filter(line => line.trim());
@@ -30,19 +27,4 @@ export function extractCSVTotalPrice(csvContent: string): string {
         }
     }
     return parseFloat(csvTotalPrice).toFixed(2);
-}
-
-export function saveDownload(download: any, downloadDir: string): string {
-    if (!fs.existsSync(downloadDir)) {
-        fs.mkdirSync(downloadDir, {recursive: true});
-    }
-    const suggestedFilename = typeof download.suggestedFilename === 'function' ? download.suggestedFilename() : download.suggestedFilename;
-    const downloadPath = path.join(downloadDir, suggestedFilename);
-    try {
-        download.saveAs(downloadPath);
-    } catch (e) {
-        // WebKit may not support saveAs in some environments
-        console.warn('download.saveAs failed:', e);
-    }
-    return downloadPath;
 }
