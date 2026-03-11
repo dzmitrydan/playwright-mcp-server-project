@@ -1,44 +1,69 @@
 import { Page, Locator, expect } from '@playwright/test';
-import path from 'path';
-import * as fs from 'fs';
 
 export class ComputeEnginePage {
   readonly page: Page;
-  readonly machineTypeCombobox: Locator;
   readonly instancesInput: Locator;
   readonly osDropdown: Locator;
-  readonly ubuntuProOption: Locator;
-  readonly regularRadio: Locator;
   readonly estimatedCostSection: Locator;
   readonly costLocator: Locator;
-  readonly downloadButton: Locator;
+  readonly deleteGroupButton: Locator;
+  readonly addItemsToYourEstimateTitle: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.machineTypeCombobox = page.getByRole('combobox', { name: 'Machine Family' });
     this.instancesInput = page.getByRole('spinbutton', { name: 'Number of instances*' });
     this.osDropdown = page.getByRole('combobox', { name: /Operating System/ });
-    this.ubuntuProOption = page.getByRole('option', { name: /Paid: Ubuntu Pro/ });
-    this.regularRadio = page.getByRole('radio', { name: 'Regular' });
     this.estimatedCostSection = page.locator('text=Estimated cost').first();
     this.costLocator = page.locator('text=/\$[\d.,]+\s*\/\s*(month|mo)/i');
-    this.downloadButton = page.getByRole('button', { name: /Download estimate as .csv|Download/ });
+    this.deleteGroupButton = page.getByRole('button', { name: /Delete group/ });
+    this.addItemsToYourEstimateTitle = page.locator('text=Add items to your estimate');
   }
 
   async setNumberOfInstances(count: number) {
     await this.instancesInput.fill(count.toString());
   }
 
-  async selectOS(osName = 'Paid: Ubuntu Pro') {
+  async selectOS(osName: string) {
     await this.osDropdown.click();
     const option = this.page.getByRole('option', { name: osName });
     await option.click();
   }
 
   async selectProvisioningModel(modelName: string) {
-    const radio = this.page.getByRole('radio', { name: modelName });
+    let radio = this.page.getByRole('radio', { name: modelName });
+    try {
+      await radio.waitFor({ state: 'attached', timeout: 5000 });
+    } catch (e) {
+      // fallback: try by value
+      let value = '';
+      if (modelName === 'Spot (Preemptible VM)') value = 'spot';
+      else if (modelName === 'Regular') value = 'regular';
+      if (value) {
+        radio = this.page.locator(`input[type="radio"][value="${value}"]`);
+        await radio.waitFor({ state: 'attached', timeout: 5000 });
+      } else {
+        throw e;
+      }
+    }
+    // Try to click the label if radio is hidden
     if (!(await radio.isChecked())) {
-      await radio.click();
+      const isVisible = await radio.isVisible();
+      if (!isVisible) {
+        // Try to click the label associated with the radio
+        const label = await radio.evaluateHandle((el) => el.closest('label'));
+        if (label) {
+          try {
+            // @ts-ignore
+            await label.asElement().click();
+            return;
+          } catch {}
+        }
+        // If label click fails, try to click via JS
+        // @ts-ignore
+        await radio.evaluate((el) => el.click());
+      } else {
+        await radio.click();
+      }
     }
   }
 
@@ -53,25 +78,33 @@ export class ComputeEnginePage {
     let text = await costLocator.textContent();
     if (!text) throw new Error('Estimated cost not found');
 
-     text = text.replace(/[^0-9.,]/g, '');
-    return text;
+    // Extract the first decimal number (price) from the text
+    const match = text.match(/\d+\.\d+/);
+    if (!match) throw new Error('Estimated cost format not found');
+    return parseFloat(match[0]).toFixed(2);
 }
 
-  async downloadEstimateCSV(): Promise<string> {
+async downloadEstimateCSV(): Promise<string> {
     const [download] = await Promise.all([
       this.page.waitForEvent('download'),
-      this.downloadButton.click(),
+      this.page.getByRole('button', { name: /Download estimate as .csv|Download/ }).click(),
     ]);
-
-    const downloadDir = path.resolve(__dirname, '../../downloads');
+    const downloadDir = 'test-downloads';
+    const fs = require('fs');
     if (!fs.existsSync(downloadDir)) {
       fs.mkdirSync(downloadDir, { recursive: true });
     }
-
-    const fileName = download.suggestedFilename();
-    const filePath = path.join(downloadDir, fileName);
-
+    const filePath = `${downloadDir}/${download.suggestedFilename()}`;
     await download.saveAs(filePath);
     return filePath;
+  }
+
+  async clickDeleteGroupButton() {
+    await this.deleteGroupButton.click();
+  }
+
+  async checkAddItemsToYourEstimateTitle(): Promise<boolean> {
+    await this.page.waitForTimeout(1000);
+    return await this.addItemsToYourEstimateTitle.isVisible();
   }
 }

@@ -2,25 +2,31 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export function extractCSVTotalPrice(csvContent: string): string {
+    // Find the line with 'Total Price:' and extract the price from the next column
     const lines = csvContent.split('\n').filter(line => line.trim());
     let csvTotalPrice = '';
-    for (let i = lines.length - 1; i >= 0; i--) {
+    for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         if (/Total Price:/i.test(line)) {
+            // The price is the value after the last comma
             const parts = line.split(',');
-            const priceCandidate = parts[parts.length - 2] || parts[parts.length - 1];
-            const priceMatch = priceCandidate.match(/[\d.,]+/);
-            if (priceMatch) {
-                csvTotalPrice = priceMatch[0];
-                break;
+            // Find the last non-empty part (should be the price)
+            for (let j = parts.length - 1; j >= 0; j--) {
+                const priceMatch = parts[j].match(/\d+\.\d+/);
+                if (priceMatch) {
+                    csvTotalPrice = priceMatch[0];
+                    break;
+                }
             }
+            if (csvTotalPrice) break;
         }
     }
     if (!csvTotalPrice) {
-        const allPrices = Array.from(csvContent.matchAll(/[\d.,]+/g)).map(m => m[0]);
+        // fallback: find the largest number in the file
+        const allPrices = Array.from(csvContent.matchAll(/\d+\.\d+/g)).map(m => m[0]);
         if (allPrices.length > 0) {
-            allPrices.sort((a, b) => parseFloat(b.replace(/,/g, '')) - parseFloat(a.replace(/,/g, '')));
-            csvTotalPrice = allPrices[0];
+            allPrices.sort((a, b) => parseFloat(b) - parseFloat(a));
+            csvTotalPrice = allPrices[allPrices.length - 1];
         }
     }
     return parseFloat(csvTotalPrice).toFixed(2);

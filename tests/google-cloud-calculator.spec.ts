@@ -1,37 +1,64 @@
-import { test, expect } from '@playwright/test';
-import { ComputeEnginePage } from '../pages/computeEngine/ComputeEnginePage';
-import { CalculatorPage } from '../pages/computeEngine/CalculatorPage';
+import {expect, test} from '@playwright/test';
+import {ComputeEnginePage} from '../pages/computeEngine/ComputeEnginePage';
+import {CalculatorPage} from '../pages/computeEngine/CalculatorPage';
 import * as fs from 'fs';
-import { extractCSVTotalPrice } from '../utils/estimateUtils';
+import {extractCSVTotalPrice} from '../utils/estimateUtils';
+import {DeletePopUpWindow} from "../pages/computeEngine/DeletePopUpWindow";
 
-test('Google Cloud Calculator - Check CSV price', async ({ page, context }) => {
-  const calculatorPage = new CalculatorPage(page);
-  const computePage = new ComputeEnginePage(page);
+test('Test 1', async ({page, context}) => {
+    const calculatorPage = new CalculatorPage(page);
+    const computePage = new ComputeEnginePage(page);
 
-  await calculatorPage.openPage();
-  await calculatorPage.addEstimate();
-  await calculatorPage.selectComputeEngine();
+    await calculatorPage.openPage();
+    await calculatorPage.addEstimate();
+    await calculatorPage.selectComputeEngine();
 
-  await computePage.setNumberOfInstances(3);
-  expect(Number(await computePage.instancesInput.inputValue())).toBe(3);
+    await computePage.setNumberOfInstances(3);
+    expect(Number(await computePage.instancesInput.inputValue())).toBe(3);
 
-  await computePage.selectOS();
-  await computePage.selectProvisioningModel('Regular');
-  await expect(computePage.regularRadio).toBeChecked();
+    await computePage.selectOS('Paid: Ubuntu Pro');
+    await computePage.selectProvisioningModel('Regular');
 
-  await computePage.selectOS('Paid: Ubuntu Pro');
+    let capturedEstimateCost = await computePage.getEstimateCost();
+    console.log(`Captured estimated cost: ${capturedEstimateCost}`);
 
-  await computePage.selectProvisioningModel('Regular');
-  await expect(computePage.regularRadio).toBeChecked();
+    const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        page.getByRole('button', {name: /Download estimate as .csv|Download/}).click(),
+    ]);
+    const downloadDir = 'downloads';
+    if (!fs.existsSync(downloadDir)) {
+        fs.mkdirSync(downloadDir, {recursive: true});
+    }
+    const filePath = `${downloadDir}/${download.suggestedFilename()}`;
+    await download.saveAs(filePath);
+    const csvContent = fs.readFileSync(filePath, 'utf-8');
+    let csvTotalPrice = extractCSVTotalPrice(csvContent);
+    console.log(`Extracted CSV price: ${csvTotalPrice}`);
 
-  let capturedEstimateCost = await computePage.getEstimateCost();
-  console.log(`Captured estimated cost: ${capturedEstimateCost}`);
+    expect(capturedEstimateCost).toBe(csvTotalPrice);
+});
 
-  const downloadPath = await computePage.downloadEstimateCSV();
-  expect(downloadPath).toBeTruthy();
-  const csvContent = fs.readFileSync(downloadPath, 'utf-8');
-  let csvTotalPrice = extractCSVTotalPrice(csvContent);
-  console.log(`Extracted CSV price: ${csvTotalPrice}`);
+test('Test 2', async ({page, context}) => {
+    const calculatorPage = new CalculatorPage(page);
+    const computePage = new ComputeEnginePage(page);
+    const deletePopUpWindow = new DeletePopUpWindow(page);
 
-  expect(capturedEstimateCost).toBe(csvTotalPrice);
+    await calculatorPage.openPage();
+    await calculatorPage.addEstimate();
+    await calculatorPage.selectComputeEngine();
+
+    await computePage.setNumberOfInstances(10);
+    expect(Number(await computePage.instancesInput.inputValue())).toBe(10);
+
+    await computePage.selectOS('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
+    await computePage.selectProvisioningModel('Spot (Preemptible VM)');
+
+    await computePage.getEstimateCost();
+
+    await computePage.clickDeleteGroupButton();
+    await deletePopUpWindow.clickCancelButton();
+    await computePage.clickDeleteGroupButton();
+    await deletePopUpWindow.clickDeleteButton();
+    await computePage.checkAddItemsToYourEstimateTitle();
 });

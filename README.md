@@ -44,5 +44,16 @@ npx playwright test tests/saucedemo-sorting.spec --headed
 ```
 
 ```bash
-npx playwright test tests/saucedemo-sorting.spec.ts  --project=chromium --headed
+npx playwright test tests/test.spec.ts  --project=chromium --headed
+```
+
+```bash
+npx playwright test tests/google-cloud-calculator.spec.ts  --project=chromium --headed
+```
+```bash
+npx playwright test google-cloud-calculator.spec --project=chromium --grep "Test 2" --headed
+```
+
+```bash
+npx playwright show-report
 ```
