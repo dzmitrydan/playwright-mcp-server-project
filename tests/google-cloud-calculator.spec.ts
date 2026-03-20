@@ -1,11 +1,10 @@
 import {expect, test} from '@playwright/test';
 import {ComputeEnginePage} from '../pages/computeEngine/ComputeEnginePage';
 import {CalculatorPage} from '../pages/computeEngine/CalculatorPage';
-import * as fs from 'fs';
 import {extractCSVTotalPrice} from '../utils/estimateUtils';
 import {DeletePopUpWindow} from "../pages/computeEngine/DeletePopUpWindow";
 
-test('Check CSV price', async ({ page }) => {
+test('Check CSV price', async ({page}) => {
     const calculatorPage = new CalculatorPage(page);
     const computePage = new ComputeEnginePage(page);
 
@@ -31,7 +30,7 @@ test('Check CSV price', async ({ page }) => {
     expect(capturedEstimateCost).toBe(csvTotalPrice);
 });
 
-test('Check delete group functionality', async ({ page }) => {
+test('Check delete group functionality', async ({page}) => {
     const calculatorPage = new CalculatorPage(page);
     const computePage = new ComputeEnginePage(page);
     const deletePopUpWindow = new DeletePopUpWindow(page);

@@ -1,4 +1,4 @@
-import {Page, Locator, expect} from '@playwright/test';
+import {expect, Locator, Page} from '@playwright/test';
 
 export class ShareEstimatePopUpWindow {
     readonly page: Page;
@@ -8,8 +8,8 @@ export class ShareEstimatePopUpWindow {
 
     constructor(page: Page) {
         this.page = page;
-        this.closeButton = page.getByRole('button', { name: 'Close dialog' });
-        this.copyLinkButton = page.getByRole('button', { name: 'Copy link' });
+        this.closeButton = page.getByRole('button', {name: 'Close dialog'});
+        this.copyLinkButton = page.getByRole('button', {name: 'Copy link'});
         this.shareEstimationCost = page.getByLabel('Share Estimate Dialog');
     }
 
@@ -23,10 +23,10 @@ export class ShareEstimatePopUpWindow {
 
     async getEstimateCost(): Promise<string> {
         const costLocator = this.page.locator(`text=/[\\d.,]+\\s*\\/\\s*(mo|month)/i`).first();
-    await expect(costLocator).toBeVisible({ timeout: 10000 });
+        await expect(costLocator).toBeVisible({timeout: 10000});
 
-    let text = await costLocator.textContent();
-    if (!text) throw new Error('Estimated cost not found');
+        let text = await costLocator.textContent();
+        if (!text) throw new Error('Estimated cost not found');
 
         // Extract the first decimal number (price) from the text
         const match = text.match(/\d+\.\d+/);

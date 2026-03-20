@@ -1,15 +1,16 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/saucedemo/LoginPage';
-import { readCSV } from '../utils/csvReader';
+import {expect, test} from '@playwright/test';
+import {LoginPage} from '../pages/saucedemo/LoginPage';
+import {readCSV} from '../utils/csvReader';
 import loginObjectData from '../test-data/loginObjectData.json';
 import loginArrayData from '../test-data/loginArrayData.json';
+
 const loginCSVData = readCSV('test-data/LoginDataCSV.csv');
 
 test.describe('Login Tests', () => {
     /**
      * JSON OBJECT (valid)
      */
-    test('Valid login test (JSON Object)', async ({ page }) => {
+    test('Valid login test (JSON Object)', async ({page}) => {
 
         const loginPage = new LoginPage(page);
         await loginPage.goto();
@@ -25,7 +26,7 @@ test.describe('Login Tests', () => {
     /**
      * JSON OBJECT (invalid)
      */
-    test('Invalid login test (JSON Object)', async ({ page }) => {
+    test('Invalid login test (JSON Object)', async ({page}) => {
 
         const loginPage = new LoginPage(page);
 
@@ -43,7 +44,7 @@ test.describe('Login Tests', () => {
     loginArrayData.forEach((data: any) => {
         if (!data.run) return;   // boolean true/false
 
-        test(`Login Test JSON Array - ${data.username}`, async ({ page }) => {
+        test(`Login Test JSON Array - ${data.username}`, async ({page}) => {
             const loginPage = new LoginPage(page);
 
             await loginPage.goto();
@@ -64,7 +65,7 @@ test.describe('Login Tests', () => {
 
         if (data.run.trim() !== 'true') return;
 
-        test(`Login Test CSV - ${data.username}`, async ({ page }) => {
+        test(`Login Test CSV - ${data.username}`, async ({page}) => {
             const loginPage = new LoginPage(page);
             await loginPage.goto();
 
