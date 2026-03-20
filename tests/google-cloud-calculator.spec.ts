@@ -19,7 +19,7 @@ test('Check CSV price', async ({ page }) => {
     await computePage.selectOS('Paid: Ubuntu Pro');
     await computePage.selectProvisioningModel('Regular');
 
-    let capturedEstimateCost = await computePage.getEstimateCost('$');
+    let capturedEstimateCost = await computePage.getEstimateCost();
     console.log(`Captured estimated cost: ${capturedEstimateCost}`);
 
     const filePath = await computePage.downloadEstimateCSV();
@@ -46,7 +46,7 @@ test('Check delete group functionality', async ({ page }) => {
     await computePage.selectOS('Free: Debian, CentOS, CoreOS, Ubuntu or BYOL (Bring Your Own License)');
     await computePage.selectProvisioningModel('Spot (Preemptible VM)');
 
-    await computePage.getEstimateCost('$');
+    await computePage.getEstimateCost();
 
     await computePage.clickDeleteGroupButton();
     await deletePopUpWindow.clickCancelButton();

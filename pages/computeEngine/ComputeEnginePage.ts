@@ -111,8 +111,9 @@ export class ComputeEnginePage {
     await this.shareButton.click();
   }
 
-  async getEstimateCost(currency: string): Promise<string> {
-    const costLocator = this.page.locator(`text=/\\${currency}[\\d.,]+\\s*\\/\\s*(mo|month)/i`).first();
+  async getEstimateCost(): Promise<string> {
+    await this.page.waitForTimeout(2000);
+    const costLocator = this.page.locator(`text=/[\\d.,]+\\s*\\/\\s*(mo|month)/i`).first();
     await expect(costLocator).toBeVisible({ timeout: 10000 });
 
     let text = await costLocator.textContent();

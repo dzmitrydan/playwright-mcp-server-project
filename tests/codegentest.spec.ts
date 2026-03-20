@@ -4,7 +4,7 @@ import { CalculatorPage } from '../pages/computeEngine/CalculatorPage';
 import { getTextFromClipboard, openNewBrowserTab } from '../utils/estimateUtils';
 import { ShareEstimatePopUpWindow } from '../pages/computeEngine/ShareEstimatePopUpWindow';
 
-test('test', async () => {
+test('Check share estimate cost', async () => {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext({
     permissions: ['clipboard-read', 'clipboard-write']
@@ -29,9 +29,12 @@ test('test', async () => {
 
   await computePage.selectDropdownCurrencyOption('Polish Zloty (PLN)');
 
-  const estimateCost = await computePage.getEstimateCost('zł');
+  const estimateCostComputePage = await computePage.getEstimateCost();
 
   await computePage.clickShareButton();
+
+  const estimateCostShared = await sharePopUpWindow.getEstimateCost();
+
   await sharePopUpWindow.clickCopyLinkButton();
   await sharePopUpWindow.clickCloseButton();
 
@@ -39,7 +42,12 @@ test('test', async () => {
   const page2 = await openNewBrowserTab(context, url);
   const computePage2 = new ComputeEnginePage(page2);
 
-  const estimateCost2 = await computePage2.getEstimateCost('zł');
+  const estimateCostComputePage2 = await computePage2.getEstimateCost();
 
-  expect(estimateCost).toBe(estimateCost2);
+  console.log(`ComputeEngine: ${estimateCostComputePage}`);
+  console.log(`ShareEstimate: ${estimateCostShared}`);
+  console.log(`ComputeEngine2: ${estimateCostComputePage2}`); 
+
+  expect(estimateCostComputePage).toBe(estimateCostShared);
+  expect(estimateCostComputePage).toBe(estimateCostComputePage2);
 });
