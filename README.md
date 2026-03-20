@@ -57,3 +57,5 @@ npx playwright test google-cloud-calculator.spec --project=chromium --grep "Test
 ```bash
 npx playwright show-report
 ```
+
+npx playwright codegen test tests/codegentest.spec.ts --headed --debug

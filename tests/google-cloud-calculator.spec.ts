@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import {extractCSVTotalPrice} from '../utils/estimateUtils';
 import {DeletePopUpWindow} from "../pages/computeEngine/DeletePopUpWindow";
 
-test('Test 1', async ({page, context}) => {
+test('Check CSV price', async ({ page }) => {
     const calculatorPage = new CalculatorPage(page);
     const computePage = new ComputeEnginePage(page);
 
@@ -31,7 +31,7 @@ test('Test 1', async ({page, context}) => {
     expect(capturedEstimateCost).toBe(csvTotalPrice);
 });
 
-test('Test 2', async ({page, context}) => {
+test('Check delete group functionality', async ({ page }) => {
     const calculatorPage = new CalculatorPage(page);
     const computePage = new ComputeEnginePage(page);
     const deletePopUpWindow = new DeletePopUpWindow(page);

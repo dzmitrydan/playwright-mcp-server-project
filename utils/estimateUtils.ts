@@ -1,3 +1,6 @@
+import {Page} from "playwright-core";
+import {Context} from "vm";
+
 export function extractCSVTotalPrice(csvContent: string): string {
     // Find the line with 'Total Price:' and extract the price from the next column
     const lines = csvContent.split('\n').filter(line => line.trim());
@@ -27,4 +30,16 @@ export function extractCSVTotalPrice(csvContent: string): string {
         }
     }
     return parseFloat(csvTotalPrice).toFixed(2);
+}
+
+export async function getTextFromClipboard(page: Page): Promise<string> {
+    return await page.evaluate(async () => {
+      return await navigator.clipboard.readText();
+  });
+}
+
+export async function openNewBrowserTab(context: Context, url: string): Promise<Page> {
+  const page = await context.newPage();
+  await page.goto(url);
+  return page;
 }

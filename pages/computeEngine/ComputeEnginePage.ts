@@ -8,6 +8,12 @@ export class ComputeEnginePage {
   readonly costLocator: Locator;
   readonly deleteGroupButton: Locator;
   readonly addItemsToYourEstimateTitle: Locator;
+  readonly instancesUsingEphemeralPublicIPInput: Locator;
+  readonly instancesUsingStaticPublicIPInput: Locator;
+  readonly numberOfVCPUsInput: Locator;
+  readonly amountOfMemoryInput: Locator;
+  readonly currencyDropdown: Locator;
+  readonly shareButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +23,12 @@ export class ComputeEnginePage {
     this.costLocator = page.locator('text=/\$[\d.,]+\s*\/\s*(month|mo)/i');
     this.deleteGroupButton = page.getByRole('button', { name: /Delete group/ });
     this.addItemsToYourEstimateTitle = page.locator('text=Add items to your estimate');
+    this.instancesUsingEphemeralPublicIPInput = page.getByRole('spinbutton', { name: 'Instances using ephemeral' });
+    this.instancesUsingStaticPublicIPInput = page.getByRole('spinbutton', { name: 'Instances using static public' });
+    this.numberOfVCPUsInput = page.getByRole('spinbutton', { name: 'Number of vCPUs' });
+    this.amountOfMemoryInput = page.getByRole('spinbutton', { name: 'Amount of memory' });
+    this.currencyDropdown = page.getByRole('button', { name: 'Open currency selector' });
+    this.shareButton = page.getByRole('button', { name: 'Open Share Estimate dialog' });
   }
 
   async setNumberOfInstances(count: number) {
@@ -69,6 +81,34 @@ export class ComputeEnginePage {
 
   async waitForEstimatedCost() {
     await expect(this.estimatedCostSection).toBeVisible({ timeout: 10000 });
+  }
+
+  async clickSwitchButton(name: string) {
+    await this.page.getByRole('switch', { name: name }).click();
+  }
+
+  async setInstancesUsingEphemeralPublicIP(arg: number) {
+    await this.instancesUsingEphemeralPublicIPInput.fill(arg.toString());
+  }
+
+  async setInstancesUsingStaticPublicIP(arg: number) {
+    await this.instancesUsingStaticPublicIPInput.fill(arg.toString());
+  }
+
+  async setNumberOfVCPUs(arg: number) {
+    await this.numberOfVCPUsInput.fill(arg.toString());
+  }
+  async setAmountOfMemory(arg: number) {
+    await this.amountOfMemoryInput.fill(arg.toString());
+  }
+
+  async selectDropdownCurrencyOption(option: string) {
+    await this.currencyDropdown.click();
+    await this.page.getByRole('menuitemradio', { name: option }).click();
+  }
+
+  async clickShareButton() {
+    await this.shareButton.click();
   }
 
   async getEstimateCost(): Promise<string> {
