@@ -25,13 +25,21 @@ test('test', async () => {
   await computePage.setInstancesUsingEphemeralPublicIP(1);
   await computePage.setInstancesUsingStaticPublicIP(1);
   await computePage.setNumberOfVCPUs(10);
-  await computePage.setAmountOfMemory(15);
+  await computePage.setAmountOfMemory(15);  
 
   await computePage.selectDropdownCurrencyOption('Polish Zloty (PLN)');
+
+  const estimateCost = await computePage.getEstimateCost('zł');
+
   await computePage.clickShareButton();
   await sharePopUpWindow.clickCopyLinkButton();
   await sharePopUpWindow.clickCloseButton();
 
   const url = await getTextFromClipboard(page);
   const page2 = await openNewBrowserTab(context, url);
+  const computePage2 = new ComputeEnginePage(page2);
+
+  const estimateCost2 = await computePage2.getEstimateCost('zł');
+
+  expect(estimateCost).toBe(estimateCost2);
 });
