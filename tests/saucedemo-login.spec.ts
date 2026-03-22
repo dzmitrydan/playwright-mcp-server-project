@@ -1,10 +1,11 @@
 import {expect, test} from '@playwright/test';
 import {LoginPage} from '../pages/saucedemo/LoginPage';
-import {readCSV} from '../utils/csvReader';
 import loginObjectData from '../test-data/loginObjectData.json';
-import loginArrayData from '../test-data/loginArrayData.json';
+import {readData} from "../utils/dataReader";
 
-const loginCSVData = readCSV('test-data/LoginDataCSV.csv');
+const loginJSONData = readData('./test-data/loginArrayData.json');
+const loginCSVData = readData('./test-data/loginDataCSV.csv');
+const loginExcelData = readData('./test-data/loginData.xlsx', 'Sheet1');
 
 test.describe('Login Tests', () => {
     /**
@@ -41,7 +42,7 @@ test.describe('Login Tests', () => {
     /**
      * JSON ARRAY (data-driven)
      */
-    loginArrayData.forEach((data: any) => {
+    loginJSONData.forEach((data: any) => {
         if (!data.run) return;   // boolean true/false
 
         test(`Login Test JSON Array - ${data.username}`, async ({page}) => {
@@ -81,5 +82,35 @@ test.describe('Login Tests', () => {
             }
         });
     });
+
+    /**
+     * EXCEL (data-driven)
+     */
+    for (const data of loginExcelData) {
+
+        // if (data.run !== 'yes') continue;
+        test(`Login test for - ${data.username}`, async ({page}) => {
+
+            test.skip(data.run !== 'yes', 'Run Flag=NO');
+
+            const loginPage = new LoginPage(page);
+
+            await test.step('Go to login page', async () => {
+                await loginPage.goto();
+            });
+
+            await test.step('Perform Login', async () => {
+                await loginPage.login(data.username, data.password);
+            });
+
+            await test.step('Validate Result', async () => {
+                if (data.expected === 'success') {
+                    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+                } else {
+                    await expect(loginPage.errorMessage).toBeVisible();
+                }
+            });
+        });
+    }
 });
 

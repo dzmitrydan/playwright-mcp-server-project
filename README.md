@@ -9,6 +9,11 @@
 - generator
 - healer
 
+### 3. Data-driven approach
+- JSON
+- CSV
+- EXCEL
+
 ---
 
 ## Initiate the Project
