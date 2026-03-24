@@ -1,8 +1,8 @@
-# Playwright MCP Server Project
+# Playwright TypeScript Project
 
 ## Description
 
-### 1. Playwright MCP 
+### 1. Playwright MCP Server
 
 ### 2. Playwright Test Agents
 - planner
@@ -63,4 +63,6 @@ npx playwright test google-cloud-calculator.spec --project=chromium --grep "Test
 npx playwright show-report
 ```
 
+```bash
 npx playwright codegen test tests/codegentest.spec.ts --headed --debug
+```
