@@ -1,17 +1,13 @@
-import {chromium, expect, test} from '@playwright/test';
+import {expect, test} from '@playwright/test';
 import {ComputeEnginePage} from '../pages/computeEngine/ComputeEnginePage';
 import {CalculatorPage} from '../pages/computeEngine/CalculatorPage';
 import {getTextFromClipboard, openNewBrowserTab} from '../utils/estimateUtils';
 import {ShareEstimatePopUpWindow} from '../pages/computeEngine/ShareEstimatePopUpWindow';
 
-test('Check share estimate cost', async () => {
-    const browser = await chromium.launch({headless: false});
-    const context = await browser.newContext({
-        permissions: ['clipboard-read', 'clipboard-write']
-    });
+test('Check share estimate cost', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
-    const page = await context.newPage();
-    const calculatorPage = new CalculatorPage(page);
+      const calculatorPage = new CalculatorPage(page);
     const computePage = new ComputeEnginePage(page);
     const sharePopUpWindow = new ShareEstimatePopUpWindow(page);
 
