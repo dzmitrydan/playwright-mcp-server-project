@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - run-tests.yml
+      - .github/workflows/run-tests.yml
   pull_request:
     paths:
-      - run-tests.yml
+      - .github/workflows/run-tests.yml
 
 jobs:
   copilot-setup-steps:
