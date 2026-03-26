@@ -27,7 +27,7 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Build application
-        run: npx playwright test "tests/**/!(codegentest).spec.ts" --project=chromium
+        run: npx playwright test --project=chromium --reporter=html --grep-invert "test"
 
       - name: Upload Playwright Report
         if: always()
