@@ -27,7 +27,7 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Build application
-        run: npx playwright test --project=chromium --reporter=html --grep-invert "test"
+        run: npx playwright test --project=chromium --grep-invert "test"
 
       - name: Upload Playwright Report
         if: always()
