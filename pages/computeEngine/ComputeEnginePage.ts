@@ -1,6 +1,7 @@
 import {expect, Locator, Page} from '@playwright/test';
+import {BasePage} from "./BasePage";
 
-export class ComputeEnginePage {
+class ComputeEnginePage extends BasePage {
     readonly page: Page;
     readonly instancesInput: Locator;
     readonly osDropdown: Locator;
@@ -16,6 +17,7 @@ export class ComputeEnginePage {
     readonly shareButton: Locator;
 
     constructor(page: Page) {
+        super(page);
         this.page = page;
         this.instancesInput = page.getByRole('spinbutton', {name: 'Number of instances*'});
         this.osDropdown = page.getByRole('combobox', {name: /Operating System/});
@@ -151,3 +153,5 @@ export class ComputeEnginePage {
         return await this.addItemsToYourEstimateTitle.isVisible();
     }
 }
+
+export default ComputeEnginePage

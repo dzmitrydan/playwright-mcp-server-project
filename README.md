@@ -64,5 +64,9 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright codegen test tests/codegentest.spec.ts --headed --debug
+npx playwright show-report --port 1234
+```
+
+```bash
+npx playwright codegen test tests/google-cloud-calculator-estimate-cost.spec.ts --headed --debug
 ```

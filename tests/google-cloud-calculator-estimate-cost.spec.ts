@@ -1,15 +1,21 @@
 import {expect, test} from '@playwright/test';
-import {ComputeEnginePage} from '../pages/computeEngine/ComputeEnginePage';
+import ComputeEnginePage from '../pages/computeEngine/ComputeEnginePage';
 import {CalculatorPage} from '../pages/computeEngine/CalculatorPage';
 import {getTextFromClipboard, openNewBrowserTab} from '../utils/estimateUtils';
 import {ShareEstimatePopUpWindow} from '../pages/computeEngine/ShareEstimatePopUpWindow';
 
-test('Check share estimate cost', async ({ page, context }) => {
-    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+test('Check share estimate cost', async ({page, context, browserName}) => {
+    if (browserName === 'chromium') {
+        await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    }
 
-      const calculatorPage = new CalculatorPage(page);
+    const calculatorPage = new CalculatorPage(page);
     const computePage = new ComputeEnginePage(page);
     const sharePopUpWindow = new ShareEstimatePopUpWindow(page);
+
+    if (browserName === 'webkit') {
+        await computePage.acceptCookies();
+    }
 
     await calculatorPage.openPage();
     await calculatorPage.addEstimate();
@@ -34,7 +40,8 @@ test('Check share estimate cost', async ({ page, context }) => {
     await sharePopUpWindow.clickCopyLinkButton();
     await sharePopUpWindow.clickCloseButton();
 
-    const url = await getTextFromClipboard(page);
+    const url = browserName !== 'webkit' ? await getTextFromClipboard(page) : page.url();
+
     const page2 = await openNewBrowserTab(context, url);
     const computePage2 = new ComputeEnginePage(page2);
 

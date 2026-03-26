@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {ComputeEnginePage} from '../pages/computeEngine/ComputeEnginePage';
+import ComputeEnginePage from '../pages/computeEngine/ComputeEnginePage';
 import {CalculatorPage} from '../pages/computeEngine/CalculatorPage';
 import {extractCSVTotalPrice} from '../utils/estimateUtils';
 import {DeletePopUpWindow} from "../pages/computeEngine/DeletePopUpWindow";
