@@ -3,7 +3,7 @@ name: "Run Tests"
 on:
   workflow_dispatch:
   push:
-    paths:
+    pull_request:
       - .github/workflows/run-tests.yml
 
 
