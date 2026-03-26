@@ -3,17 +3,12 @@ name: "Run Tests"
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
-  pull_request:
-      branches: [ main ]
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
+    pull_request:
+      - .github/workflows/run-tests.yml
 
 jobs:
   copilot-setup-steps:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     permissions:
       contents: read
