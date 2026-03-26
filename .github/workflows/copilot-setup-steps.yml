@@ -8,7 +8,7 @@ on:
 
 jobs:
   copilot-setup-steps:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
