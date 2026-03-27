@@ -14,6 +14,8 @@
 - CSV
 - EXCEL
 
+### 4. PowerShell Tests
+
 ---
 
 ## Initiate the Project
@@ -64,9 +66,14 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1234
+npx playwright show-report --port 1238
 ```
 
 ```bash
 npx playwright codegen test tests/google-cloud-calculator-estimate-cost.spec.ts --headed --debug
+```
+
+Run PowerShell tests:
+```bash
+npx playwright test tests/powershell.spec.ts --project=cli
 ```
