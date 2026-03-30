@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "csv-parse": "^6.1.0",
-    "exceljs": "^4.4.0",
     "mssql": "^12.2.1",
     "xlsx": "^0.18.5"
   }

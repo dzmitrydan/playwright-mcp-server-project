@@ -43,6 +43,9 @@ Install project dependency
 npm install
 ```
 
+```bash
+npm install --no-audit
+```
 ---
 
 ## Run Tests
@@ -80,7 +83,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1248
+npx playwright show-report --port 1148
 ```
 
 ```bash
