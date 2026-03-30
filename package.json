@@ -9,11 +9,14 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.58.2",
+    "@types/mssql": "^9.1.11",
     "@types/node": "^24.10.1",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
     "csv-parse": "^6.1.0",
+    "exceljs": "^4.4.0",
+    "mssql": "^12.2.1",
     "xlsx": "^0.18.5"
   }
 }

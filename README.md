@@ -80,7 +80,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1246
+npx playwright show-report --port 1248
 ```
 
 ```bash
