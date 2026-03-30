@@ -16,6 +16,20 @@
 
 ### 4. PowerShell Tests
 
+PowerShell script + CSV/Excel + Playwright
+
+Data Driven Testing
+Test data (CSV / Excel)
+↓
+Script execution
+↓
+Validation
+↓
+Report
+
+
+Excel → PowerShell → Playwright → HTML Report → CI
+
 ---
 
 ## Initiate the Project
@@ -66,7 +80,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1238
+npx playwright show-report --port 1246
 ```
 
 ```bash
@@ -75,5 +89,5 @@ npx playwright codegen test tests/google-cloud-calculator-estimate-cost.spec.ts 
 
 Run PowerShell tests:
 ```bash
-npx playwright test tests/powershell.spec.ts --project=cli
+npx playwright test tests/pstest.spec.ts --project=cli
 ```
