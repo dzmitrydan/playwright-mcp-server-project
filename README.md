@@ -83,7 +83,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1186
+npx playwright show-report --port 1877
 ```
 
 ```bash
@@ -92,25 +92,5 @@ npx playwright codegen test tests/google-cloud-calculator-estimate-cost.spec.ts 
 
 Run PowerShell tests:
 ```bash
-npx playwright test tests/pstest.spec.ts --project=cli
+npx playwright test tests/pwtest.spec.ts --project=cli
 ```
-
-Очень важно — порядок выполнения
-
-Твой pipeline теперь:
-
-Excel
-↓
-Read rows
-↓
-VariableResolver
-↓
-Command (PS / SQL)
-↓
-Output
-↓
-Resolve Expected
-↓
-OutputChecker
-↓
-Playwright Report

@@ -26,14 +26,17 @@ export class VariableResolver {
         }
     }
 
-    resolve(command: string): string {
-        return command.replace(/\$\{([^}]+)\}/g, (_, varName) => {
+    resolve(text: string): string {
+        if (!text) return text;
+
+        return text.replace(/\$\{([^}]+)\}/g, (_, varName) => {
             const value = this.variables[varName];
 
             if (value === undefined) {
                 console.warn(`Variable not found: ${varName}`);
                 return `\${${varName}}`;
             }
+
             return value;
         });
     }
