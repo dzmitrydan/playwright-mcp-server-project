@@ -1,8 +1,9 @@
 import * as XLSX from 'xlsx';
-import {expect, test} from '@playwright/test';
-import {PowershellHelper} from '../utils/pw/powershellHelper';
-import {SqlHelper} from '../utils/pw/sqlHelper';
-import {OutputChecker} from '../utils/pw/outputChecker';
+import { expect, test } from '@playwright/test';
+import { PowershellHelper } from '../utils/pw/powershellHelper';
+import { SqlHelper } from '../utils/pw/sqlHelper';
+import { OutputChecker } from '../utils/pw/outputChecker';
+import { VariableResolver } from '../utils/pw/variableResolver';
 
 test.use({
     screenshot: 'off',
@@ -13,12 +14,18 @@ test.use({
 const ps = new PowershellHelper();
 const sqlHelper = new SqlHelper();
 
+const resolver = new VariableResolver([
+    './config/dbConfig.json',
+    './config/sqlVariables.json',
+    './config/powershellVariables.json'
+]);
+
 const workbook = XLSX.readFile('./data/commands.xlsx');
 const sheetsMap: Record<string, any[]> = {};
 
 for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(sheet, {header: 1}) as any[];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[];
 
     sheetsMap[sheetName] = data.slice(1).map(row => ({
         action: row[0]?.toString().toLowerCase().trim(),
@@ -32,34 +39,44 @@ for (const sheetName of Object.keys(sheetsMap)) {
     test(`Test: ${sheetName}`, async ({}, testInfo) => {
 
         for (const cmd of sheetsMap[sheetName]) {
+
             await test.step(`Command: ${cmd.command}`, async () => {
+
                 let output = '';
 
+                const resolvedCommand = resolver.resolve(cmd.command);
+
+                const resolvedExpected = cmd.expected
+                    ? resolver.resolve(cmd.expected)
+                    : cmd.expected;
+
                 if (cmd.action === 'powershell') {
-                    output = await ps.runCommand(cmd.command);
+                    output = await ps.runCommand(resolvedCommand);
                 }
 
                 if (cmd.action === 'sql') {
-                    output = await sqlHelper.runQuery(cmd.command);
+                    output = await sqlHelper.runQuery(resolvedCommand);
                 }
 
-                const passed = cmd.expected
-                    ? OutputChecker.validate(output, cmd.expected, cmd.checkType)
+                const passed = resolvedExpected
+                    ? OutputChecker.validate(output, resolvedExpected, cmd.checkType)
                     : true;
 
-                console.log(`[${sheetName}] ${cmd.action} -> ${cmd.command}`);
+                console.log(`[${sheetName}] ${cmd.action}`);
+                console.log(`Command: ${resolvedCommand}`);
+                console.log(`Expected: ${resolvedExpected}`);
                 console.log(`Output: ${output}`);
                 console.log(`Passed: ${passed}`);
 
-                await testInfo.attach(`Sheet: ${sheetName} | Command: ${cmd.command}`, {
+                await testInfo.attach(`Command: ${resolvedCommand}`, {
                     body:
                         `Sheet: ${sheetName}
-                        Action: ${cmd.action}
-                        Command: ${cmd.command}
-                        Output: ${output}
-                        Expected: ${cmd.expected}
-                        CheckType: ${cmd.checkType}
-                        Passed: ${passed}`,
+Action: ${cmd.action}
+Command: ${resolvedCommand}
+Expected: ${resolvedExpected}
+Output: ${output}
+CheckType: ${cmd.checkType}
+Passed: ${passed}`,
                     contentType: 'text/plain'
                 });
 

@@ -83,7 +83,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1181
+npx playwright show-report --port 1186
 ```
 
 ```bash
@@ -94,3 +94,23 @@ Run PowerShell tests:
 ```bash
 npx playwright test tests/pstest.spec.ts --project=cli
 ```
+
+Очень важно — порядок выполнения
+
+Твой pipeline теперь:
+
+Excel
+↓
+Read rows
+↓
+VariableResolver
+↓
+Command (PS / SQL)
+↓
+Output
+↓
+Resolve Expected
+↓
+OutputChecker
+↓
+Playwright Report

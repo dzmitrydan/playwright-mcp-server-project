@@ -1,5 +1,9 @@
 import sql from 'mssql';
-import { dbConfigParser } from '../../config/dbConfigParser';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const configPath = path.resolve('./config/dbConfig.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 export class SqlHelper {
     private pool: sql.ConnectionPool | null = null;
@@ -7,9 +11,15 @@ export class SqlHelper {
     async connect() {
         if (this.pool) return this.pool;
 
-        this.pool = new sql.ConnectionPool(dbConfigParser);
-        await this.pool.connect();
+        this.pool = new sql.ConnectionPool({
+            ...config.db,
+            options: {
+                encrypt: false,
+                trustServerCertificate: true
+            }
+        });
 
+        await this.pool.connect();
         return this.pool;
     }
 
@@ -17,7 +27,6 @@ export class SqlHelper {
         try {
             const pool = await this.connect();
             const result = await pool.request().query(query);
-
             return JSON.stringify(result.recordset);
         } catch (err: any) {
             return err.message;
