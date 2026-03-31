@@ -1,4 +1,4 @@
-export class OutputParser {
+export class OutputChecker {
     static validate(output: string, expected?: string, checkType?: string): boolean {
 
         if (!expected || expected.trim() === '') {

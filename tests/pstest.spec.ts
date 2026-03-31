@@ -1,8 +1,14 @@
 import * as XLSX from 'xlsx';
-import { test, expect } from '@playwright/test';
-import { PowershellHelper } from '../utils/pw/powershellHelper';
-import { SqlHelper } from '../utils/pw/sqlHelper';
-import { OutputParser } from '../utils/pw/outputParser';
+import {expect, test} from '@playwright/test';
+import {PowershellHelper} from '../utils/pw/powershellHelper';
+import {SqlHelper} from '../utils/pw/sqlHelper';
+import {OutputChecker} from '../utils/pw/outputChecker';
+
+test.use({
+    screenshot: 'off',
+    video: 'off',
+    trace: 'off'
+});
 
 const ps = new PowershellHelper();
 const sqlHelper = new SqlHelper();
@@ -12,7 +18,7 @@ const sheetsMap: Record<string, any[]> = {};
 
 for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[];
+    const data = XLSX.utils.sheet_to_json(sheet, {header: 1}) as any[];
 
     sheetsMap[sheetName] = data.slice(1).map(row => ({
         action: row[0]?.toString().toLowerCase().trim(),
@@ -23,7 +29,7 @@ for (const sheetName of workbook.SheetNames) {
 }
 
 for (const sheetName of Object.keys(sheetsMap)) {
-    test(`Excel Sheet: ${sheetName}`, async ({}, testInfo) => {
+    test(`Test: ${sheetName}`, async ({}, testInfo) => {
 
         for (const cmd of sheetsMap[sheetName]) {
             await test.step(`Command: ${cmd.command}`, async () => {
@@ -38,7 +44,7 @@ for (const sheetName of Object.keys(sheetsMap)) {
                 }
 
                 const passed = cmd.expected
-                    ? OutputParser.validate(output, cmd.expected, cmd.checkType)
+                    ? OutputChecker.validate(output, cmd.expected, cmd.checkType)
                     : true;
 
                 console.log(`[${sheetName}] ${cmd.action} -> ${cmd.command}`);
@@ -48,12 +54,12 @@ for (const sheetName of Object.keys(sheetsMap)) {
                 await testInfo.attach(`Sheet: ${sheetName} | Command: ${cmd.command}`, {
                     body:
                         `Sheet: ${sheetName}
-Action: ${cmd.action}
-Command: ${cmd.command}
-Output: ${output}
-Expected: ${cmd.expected}
-CheckType: ${cmd.checkType}
-Passed: ${passed}`,
+                        Action: ${cmd.action}
+                        Command: ${cmd.command}
+                        Output: ${output}
+                        Expected: ${cmd.expected}
+                        CheckType: ${cmd.checkType}
+                        Passed: ${passed}`,
                     contentType: 'text/plain'
                 });
 

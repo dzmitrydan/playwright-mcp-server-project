@@ -1,4 +1,5 @@
 import sql from 'mssql';
+import { dbConfigParser } from '../../config/dbConfigParser';
 
 export class SqlHelper {
     private pool: sql.ConnectionPool | null = null;
@@ -6,16 +7,9 @@ export class SqlHelper {
     async connect() {
         if (this.pool) return this.pool;
 
-        this.pool = new sql.ConnectionPool({
-            user: 'sa',
-            password: 'Strong@Passw0rd',
-            server: 'localhost',
-            port: 1433,
-            database: 'TestDB',
-            options: { encrypt: false, trustServerCertificate: true },
-        });
-
+        this.pool = new sql.ConnectionPool(dbConfigParser);
         await this.pool.connect();
+
         return this.pool;
     }
 
@@ -23,6 +17,7 @@ export class SqlHelper {
         try {
             const pool = await this.connect();
             const result = await pool.request().query(query);
+
             return JSON.stringify(result.recordset);
         } catch (err: any) {
             return err.message;
