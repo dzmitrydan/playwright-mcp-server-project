@@ -12,3 +12,4 @@ node_modules/
 /playwright/.auth/
 /downloads/
 /data/.~*.xlsx#
+/data/*/.~lock.demoAssertion.xlsx#
