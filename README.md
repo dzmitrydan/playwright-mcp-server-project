@@ -83,7 +83,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 1877
+npx playwright show-report --port 5779
 ```
 
 ```bash
@@ -92,5 +92,15 @@ npx playwright codegen test tests/google-cloud-calculator-estimate-cost.spec.ts 
 
 Run PowerShell tests:
 ```bash
-npx playwright test tests/pwtest.spec.ts --project=cli
+npx playwright test tests/pw-test.spec.ts --project=cli
+```
+
+Run Smoke tests:
+```bash
+npx playwright test tests/pw-test.spec.ts --project=cli
+```
+
+Run Specific EXCEL test suite:
+```bash
+TEST_SUITE=demoTest npx playwright test tests/test-runner.spec.ts --project=cli
 ```

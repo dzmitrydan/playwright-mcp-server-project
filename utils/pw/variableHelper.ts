@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class VariableResolver {
+export class VariableHelper {
     private variables: Record<string, any> = {};
 
     constructor(jsonFiles: string[]) {
