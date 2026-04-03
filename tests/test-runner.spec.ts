@@ -16,8 +16,6 @@ test.use({
     trace: 'off'
 });
 
-test.describe.configure({ mode: 'serial' });
-
 // ================= HELPERS =================
 const ps = new PowershellHelper();
 const sqlHelper = new SqlHelper();
@@ -32,12 +30,6 @@ const resolver = new VariableHelper([
 const suite = process.env.TEST_SUITE || 'demo';
 const excelFile = path.resolve(process.cwd(), `data/${suite}.xlsx`);
 
-console.log('==============================');
-console.log('TEST_SUITE =', suite);
-console.log('EXCEL FILE =', excelFile);
-console.log('==============================');
-
-// ================= VALIDATION =================
 if (!fs.existsSync(excelFile)) {
     throw new Error(`Excel file not found: ${excelFile}`);
 }
@@ -57,7 +49,7 @@ for (const sheetName of workbook.SheetNames) {
         value2: row[3]?.toString().trim(),
         expected: row[4]?.toString().trim(),
         check: row[5]?.toString().trim(),
-        value3: row[6]?.toString().trim(), // FIX
+        value3: row[6]?.toString().trim(),
     }));
 }
 
@@ -67,27 +59,28 @@ for (const sheetName of Object.keys(sheetsMap)) {
     test(`Sheet: ${sheetName}`, async ({ page }, testInfo) => {
 
         const web = new WebHelper(page);
+        let stopSheet = false; // останавливает Sheet при падении шага
 
         for (const cmd of sheetsMap[sheetName]) {
 
-            await test.step(`${cmd.action} -> ${cmd.command}`, async () => {
+            if (stopSheet) break;
 
-                let output = '';
-                let passed = true;
+            await test.step(`${cmd.action} -> ${cmd.command}`, async () => {
 
                 const command = resolver.resolve(cmd.command || '');
                 const value1 = resolver.resolve(cmd.value1 || '');
                 const value2 = resolver.resolve(cmd.value2 || '');
                 const expected = resolver.resolve(cmd.expected || '');
 
+                let output = '';
+
+                // ================= EXECUTE COMMAND =================
                 switch ((cmd.action || '').toLowerCase()) {
 
                     case 'powershell':
-                        if (command.toLowerCase() === 'runps1') {
-                            output = await ps.runPS1(value1, value2);
-                        } else {
-                            output = await ps.runCommand(command);
-                        }
+                        output = command.toLowerCase() === 'runps1'
+                            ? await ps.runPS1(value1, value2)
+                            : await ps.runCommand(command);
                         break;
 
                     case 'sql':
@@ -96,27 +89,21 @@ for (const sheetName of Object.keys(sheetsMap)) {
 
                     case 'web':
                         switch (command) {
-
                             case 'openPage':
                                 output = await web.openPage(value1);
                                 break;
-
                             case 'inputText':
                                 output = await web.inputText(value1, value2);
                                 break;
-
                             case 'clickButton':
                                 output = await web.clickButton(value1);
                                 break;
-
                             case 'webGetUrl':
                                 output = await web.webGetUrl();
                                 break;
-
                             case 'webElementVisible':
                                 output = await web.webElementVisible(value1);
                                 break;
-
                             default:
                                 output = `Unknown web command: ${command}`;
                         }
@@ -126,26 +113,8 @@ for (const sheetName of Object.keys(sheetsMap)) {
                         output = `Unknown action: ${cmd.action}`;
                 }
 
-                // ===== VALIDATION =====
-                if (expected) {
-                    passed = OutputChecker.validate(
-                        output,
-                        expected,
-                        cmd.check,
-                        cmd.value3
-                    );
-                }
-
-                console.log('------------------------------');
-                console.log(`Sheet: ${sheetName}`);
-                console.log(`Action: ${cmd.action}`);
-                console.log(`Command: ${command}`);
-                console.log(`Output: ${output}`);
-                console.log(`Expected: ${expected}`);
-                console.log(`Passed: ${passed}`);
-                console.log('------------------------------');
-
-                await testInfo.attach(`Command: ${command}`, {
+                // ================= ATTACH LOGS =================
+                await testInfo.attach(`Step Output: ${cmd.action} -> ${command}`, {
                     body:
                         `Sheet: ${sheetName}
 Action: ${cmd.action}
@@ -153,12 +122,20 @@ Command: ${command}
 Value1: ${value1}
 Value2: ${value2}
 Expected: ${expected}
-Output: ${output}
-Passed: ${passed}`,
+Output: ${output}`,
                     contentType: 'text/plain'
                 });
 
-                expect(passed).toBeTruthy();
+                // ================= VALIDATION =================
+                let passed = true;
+                if (expected) {
+                    passed = OutputChecker.validate(output, expected, cmd.check, cmd.value3);
+                }
+
+                if (!passed) stopSheet = true;
+
+                // ================= FAIL STEP =================
+                expect(passed).toBeTruthy(); // Step автоматически красный в отчёте
             });
         }
     });

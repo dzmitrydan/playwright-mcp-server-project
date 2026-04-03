@@ -83,7 +83,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 5979
+npx playwright show-report --port 4859
 ```
 
 ```bash
@@ -102,5 +102,5 @@ npx playwright test tests/pw-test.spec.ts --project=cli
 
 Run Specific EXCEL test suite:
 ```bash
-TEST_SUITE=demoTest npx playwright test tests/test-runner.spec.ts --project=cli
+TEST_SUITE=demoTest npx playwright test tests/test-runner.spec.ts --project=cli --workers=1
 ```
