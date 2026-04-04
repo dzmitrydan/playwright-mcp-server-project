@@ -2,17 +2,37 @@ import sql from 'mssql';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const configPath = path.resolve('./config/dbConfig.json');
-const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-
 export class SqlHelper {
     private pool: sql.ConnectionPool | null = null;
+    private envName: string;
+    private config: any;
+
+    constructor(envName: string) {
+        this.envName = envName.toLowerCase();
+
+        // Формируем путь к файлу конфигурации в зависимости от среды
+        const configFileName = `env.${this.envName}.json`;
+        const configPath = path.resolve(`./config/${configFileName}`);
+
+        if (!fs.existsSync(configPath)) {
+            throw new Error(`DB config file not found for env "${this.envName}": ${configPath}`);
+        }
+
+        const fileContent = fs.readFileSync(configPath, 'utf8');
+        const json = JSON.parse(fileContent);
+
+        if (!json.db) {
+            throw new Error(`DB configuration missing in file: ${configPath}`);
+        }
+
+        this.config = json.db;
+    }
 
     async connect() {
         if (this.pool) return this.pool;
 
         this.pool = new sql.ConnectionPool({
-            ...config.db,
+            ...this.config,
             options: {
                 encrypt: false,
                 trustServerCertificate: true

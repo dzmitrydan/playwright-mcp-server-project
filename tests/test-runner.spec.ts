@@ -5,28 +5,30 @@ import { SqlHelper } from '../utils/pw/sqlHelper';
 import { OutputChecker } from '../utils/pw/outputChecker';
 import { VariableHelper } from '../utils/pw/variableHelper';
 import WebHelper from '../utils/pw/webHelper';
-
+import { RuntimeVariables } from '../utils/pw/RuntimeVariables';
 import path from 'path';
 import fs from 'fs';
 
-// ================= CONFIG =================
 test.use({
     screenshot: 'off',
     video: 'off',
     trace: 'off'
 });
 
-// ================= HELPERS =================
-const ps = new PowershellHelper();
-const sqlHelper = new SqlHelper();
-
-const resolver = new VariableHelper([
-    './config/dbConfig.json',
-    './config/sqlVariables.json',
-    './config/powershellVariables.json'
-]);
-
 // ================= ENV =================
+const envName = process.env.TEST_ENV || 'qa';
+console.log(`======================`);
+console.log(`Running tests on ENV: ${envName}`);
+console.log(`======================`);
+
+
+// SqlHelper с динамическим envName
+const sqlHelper = new SqlHelper(envName);
+
+// Resolver для переменных
+const resolver = new VariableHelper(); // Пустой, так как переменные из Excel и PowerShell
+
+// ================= TEST SUITE =================
 const suite = process.env.TEST_SUITE || 'demo';
 const excelFile = path.resolve(process.cwd(), `data/${suite}.xlsx`);
 
@@ -41,7 +43,6 @@ const sheetsMap: Record<string, any[]> = {};
 for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
     const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[];
-
     sheetsMap[sheetName] = data.slice(1).map(row => ({
         action: row[0]?.toString().trim(),
         command: row[1]?.toString().trim(),
@@ -55,18 +56,20 @@ for (const sheetName of workbook.SheetNames) {
 
 // ================= TEST PER SHEET =================
 for (const sheetName of Object.keys(sheetsMap)) {
-
     test(`Sheet: ${sheetName}`, async ({ page }, testInfo) => {
 
         const web = new WebHelper(page);
-        let stopSheet = false; // останавливает Sheet при падении шага
+        const ps = new PowershellHelper();
+
+        await ps.start();
+        let stopSheet = false;
 
         for (const cmd of sheetsMap[sheetName]) {
-
             if (stopSheet) break;
 
             await test.step(`${cmd.action} -> ${cmd.command}`, async () => {
 
+                // RESOLVE для всех переменных, включая ${webPassword}, ${c} и т.д.
                 const command = resolver.resolve(cmd.command || '');
                 const value1 = resolver.resolve(cmd.value1 || '');
                 const value2 = resolver.resolve(cmd.value2 || '');
@@ -74,17 +77,23 @@ for (const sheetName of Object.keys(sheetsMap)) {
 
                 let output = '';
 
-                // ================= EXECUTE COMMAND =================
                 switch ((cmd.action || '').toLowerCase()) {
-
                     case 'powershell':
                         output = command.toLowerCase() === 'runps1'
                             ? await ps.runPS1(value1, value2)
                             : await ps.runCommand(command);
+
+                        // Сохраняем результат в RuntimeVariables, если нужно
+                        if (cmd.value3) {
+                            RuntimeVariables.set(cmd.value3, output);
+                        }
                         break;
 
                     case 'sql':
                         output = await sqlHelper.runQuery(command);
+                        if (cmd.value3) {
+                            RuntimeVariables.set(cmd.value3, output);
+                        }
                         break;
 
                     case 'web':
@@ -113,7 +122,6 @@ for (const sheetName of Object.keys(sheetsMap)) {
                         output = `Unknown action: ${cmd.action}`;
                 }
 
-                // ================= ATTACH LOGS =================
                 await testInfo.attach(`Step Output: ${cmd.action} -> ${command}`, {
                     body:
                         `Sheet: ${sheetName}
@@ -126,7 +134,6 @@ Output: ${output}`,
                     contentType: 'text/plain'
                 });
 
-                // ================= VALIDATION =================
                 let passed = true;
                 if (expected) {
                     passed = OutputChecker.validate(output, expected, cmd.check, cmd.value3);
@@ -134,14 +141,11 @@ Output: ${output}`,
 
                 if (!passed) stopSheet = true;
 
-                // ================= FAIL STEP =================
-                expect(passed).toBeTruthy(); // Step автоматически красный в отчёте
+                expect(passed).toBeTruthy();
             });
         }
+
+        await sqlHelper.close();
+        ps.stop();
     });
 }
-
-// ================= CLEANUP =================
-test.afterAll(async () => {
-    await sqlHelper.close();
-});

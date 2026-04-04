@@ -2,7 +2,7 @@ export class RuntimeVariables {
     private static variables: Record<string, string> = {};
 
     static set(name: string, value: string) {
-        this.variables[name] = value;
+        this.variables[name] = value.toString().trim();
     }
 
     static get(name: string): string {

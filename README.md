@@ -83,7 +83,7 @@ npx playwright show-report
 ```
 
 ```bash
-npx playwright show-report --port 4859
+npx playwright show-report --port 8997
 ```
 
 ```bash
@@ -100,7 +100,19 @@ Run Smoke tests:
 npx playwright test tests/pw-test.spec.ts --project=cli
 ```
 
+
+pwsh
+
+
 Run Specific EXCEL test suite:
 ```bash
-TEST_SUITE=demoTest npx playwright test tests/test-runner.spec.ts --project=cli --workers=1
+TEST_ENV=prod TEST_SUITE=demoTest npx playwright test tests/test-runner.spec.ts --project=cli --workers=1
+```
+
+```bash
+TEST_ENV=prod TEST_SUITE=regression npx playwright test tests/test-runner.spec.ts --project=cli --workers=1
+```
+
+```bash
+TEST_ENV=qa TEST_SUITE=regression npx playwright test tests/test-runner.spec.ts --project=cli --workers=1
 ```
