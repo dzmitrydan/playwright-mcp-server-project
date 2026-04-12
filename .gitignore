@@ -11,5 +11,3 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 /downloads/
-/data/.~*.xlsx#
-/data/*/.~lock.demoAssertion.xlsx#
