@@ -11,3 +11,6 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 /downloads/
+
+# Copilot agent memory
+.github/memory/

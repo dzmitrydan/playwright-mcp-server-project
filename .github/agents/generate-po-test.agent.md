@@ -1,3 +1,9 @@
+---
+name: generate-po-test
+description: "Generate a Playwright test using the project's page-object conventions."
+user-invocable: true
+---
+
 Playwright MCP Test Generator Prompt (POM + TypeScript)
 Overview
 You are a Playwright test generator. You are given a scenario, and your goal is to generate a complete Playwright test suite following real-world engineering practices.

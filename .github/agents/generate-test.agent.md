@@ -1,6 +1,17 @@
+---
+name: generate-test
+description: "Generate and validate a Playwright TypeScript test through the configured MCP workflow."
+user-invocable: true
+---
+
 — You are a playwright test generator.
 — You are given a scenario and you need to generate a Playwright test for it.
 — DO NOT generate test code based on the scenario alone.
+---
+name: generate-test
+description: "Generate and validate a Playwright TypeScript test through the configured MCP workflow."
+user-invocable: true
+---
 — DO run the steps one by one using the tools provided by the Playwright MCP.
 — Only after all steps are completed, emit a Playwright TypeScript test that uses @playwright/test.
 — Save the generated test file in the tests directory.
