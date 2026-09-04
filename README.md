@@ -33,6 +33,7 @@ The project also contains TypeScript UI tests, custom GitHub Copilot agents,
 and a separate Python MCP server for safe GitHub pull-request and local-branch
 reviews.
 
+
 ## Project Contents
 
 ### Playwright tests
@@ -160,9 +161,11 @@ after every fix. If the issue cannot be resolved reliably, it may add
 `test.fixme()` with an explanation. It must not use `networkidle`, hard waits or
 deprecated APIs.
 
+---
+
 ### Code review
 
-#### `pr-review`
+#### `PR-Review`
 
 File: `.github/agents/pr-review.agent.md`
 
@@ -199,7 +202,9 @@ internal agent (`user-invocable: false`), so it is not started directly and does
 not run automatically after a commit. You can run the review manually at any
 time while the pull request exists.
 
-#### `pr-review-commenter`
+![Comments](assets/review.png)
+
+#### `PR-Review-Commenter`
 
 File: `.github/agents/pr-review-commenter.agent.md`
 
@@ -207,6 +212,8 @@ Internal agent for publishing PR review results. It receives only findings
 explicitly approved by `pr-review` and posts inline comments and a summary
 through GitHub tools. It does not edit source files, create commits, delete
 comments or use maintenance tools. `user-invocable: false`.
+
+![Comments](assets/comments.png)
 
 ## MCP configuration
 
@@ -229,7 +236,7 @@ tools.
 It runs with `npx @playwright/mcp@latest` and provides browser/MCP tools for
 working with web pages.
 
-### `pr-review`
+### `PR-Review`
 
 It runs with:
 
@@ -420,3 +427,40 @@ For safer automation, publish a comment only when the review contains a HIGH
 or MEDIUM finding. Until these changes are enabled, the workflow remains in
 artifact-only mode: it analyzes the pull request and stores the report without
 writing comments.
+
+### PR review environment variables
+
+The `pr-review.yml` workflow uses the following environment variables:
+
+| Variable | Source | Required from the user? | Purpose |
+| --- | --- | --- | --- |
+| `GH_TOKEN` | `${{ github.token }}` | No | Temporary GitHub Actions token used to read pull-request data through `gh`. |
+| `OPENAI_API_KEY` | Repository Secret in `Settings -> Secrets and variables -> Actions -> Secrets` | Yes, when an AI API is used | API key for an OpenAI-compatible AI provider. |
+| `OPENAI_BASE_URL` | Repository Variable in `Settings -> Secrets and variables -> Actions -> Variables` | Yes, when an AI API is used | Base URL of the AI provider API. |
+| `OPENAI_MODEL` | Repository Variable in the same location | Yes, when an AI API is used | Model name accepted by the configured provider. |
+| `PR_NUMBER` | Pull-request event or manual workflow input | No | Pull-request number passed automatically to the review runner. |
+| `PR_REVIEW_OUTPUT_DIR` | Defined by the workflow | No | Directory where the Markdown review report is written before artifact upload. |
+
+At the moment, this project has access only to GitHub Copilot in VS Code. It
+does not have an `OPENAI_API_KEY`, `OPENAI_BASE_URL` or `OPENAI_MODEL` configured.
+Therefore, the automated AI review workflow cannot complete successfully yet.
+
+GitHub Copilot in VS Code and an AI provider API are different services. The
+GitHub Actions runner cannot directly call the Copilot model running in a local
+VS Code session, and a Copilot subscription does not automatically create an
+OpenAI API key for GitHub Actions. The `.agent.md` files and the MCP server are
+available for interactive reviews in VS Code, but they do not make Copilot a
+background service inside GitHub Actions.
+
+To use the workflow automatically, configure an OpenAI-compatible provider:
+
+1. Create an API key with the selected provider.
+2. Add it as the repository Secret `OPENAI_API_KEY`.
+3. Add the provider endpoint as the repository Variable `OPENAI_BASE_URL`.
+4. Add the provider model name as the repository Variable `OPENAI_MODEL`.
+5. Run the workflow again or create a new commit in the pull request.
+
+Do not commit API keys to the repository or put them directly in the workflow
+file. If no external AI API is configured, use the `pr-review` agent manually
+from VS Code; the GitHub Actions workflow is not a replacement for the local
+Copilot session.
