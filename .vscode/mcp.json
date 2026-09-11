@@ -1,10 +1,28 @@
 {
-  "mcpServers": {
+  "servers": {
     "playwright": {
+      "type": "stdio",
       "command": "npx",
       "args": [
         "@playwright/mcp@latest"
       ]
+    },
+    "playwright-test": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "playwright",
+        "run-test-mcp-server"
+      ]
+    },
+    "pr-review": {
+      "type": "stdio",
+      "command": "${workspaceFolder}/.github/scripts/pr_review/.venv/bin/python",
+      "args": [
+        "mcp_server.py"
+      ],
+      "cwd": "${workspaceFolder}/.github/scripts/pr_review",
+      "env": {}
     }
   }
 }

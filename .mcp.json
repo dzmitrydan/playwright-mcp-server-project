@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-test": {
+      "command": "npx",
+      "args": ["playwright", "run-test-mcp-server"]
+    },
+    "pr-review": {
+      "command": ".github/scripts/pr_review/.venv/bin/python",
+      "args": [
+        "mcp_server.py"
+      ],
+      "cwd": ".github/scripts/pr_review",
+      "env": {}
+    }
+  }
+}

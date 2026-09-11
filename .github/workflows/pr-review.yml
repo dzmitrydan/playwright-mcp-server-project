@@ -1,0 +1,57 @@
+name: PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install review dependencies
+        run: uv sync --directory .github/scripts/pr_review --frozen
+
+      - name: Run AI review
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ vars.OPENAI_BASE_URL }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          PR_NUMBER: ${{ inputs.pr_number || github.event.pull_request.number }}
+          PR_REVIEW_OUTPUT_DIR: .github/pr-review-output
+        run: |
+          uv run --directory .github/scripts/pr_review \
+            python review_runner.py --pr "$PR_NUMBER"
+
+      - name: Upload review report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-review-${{ inputs.pr_number || github.event.pull_request.number }}
+          path: .github/pr-review-output/
+          if-no-files-found: ignore
+          retention-days: 14
